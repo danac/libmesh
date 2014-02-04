@@ -805,7 +805,8 @@ void SerialMesh::stitch_meshes (SerialMesh& other_mesh,
                                 bool clear_stitched_boundary_ids,
                                 bool verbose,
                                 bool use_binary_search,
-                                bool enforce_all_nodes_match_on_boundaries)
+                                bool enforce_all_nodes_match_on_boundaries,
+                                bool skip_find_neighbors)
 {
   stitching_helper(&other_mesh,
                    this_mesh_boundary_id,
@@ -814,7 +815,8 @@ void SerialMesh::stitch_meshes (SerialMesh& other_mesh,
                    clear_stitched_boundary_ids,
                    verbose,
                    use_binary_search,
-                   enforce_all_nodes_match_on_boundaries);
+                   enforce_all_nodes_match_on_boundaries,
+                   skip_find_neighbors);
 }
 
 void SerialMesh::stitch_surfaces (boundary_id_type boundary_id_1,
@@ -823,7 +825,8 @@ void SerialMesh::stitch_surfaces (boundary_id_type boundary_id_1,
                                   bool clear_stitched_boundary_ids,
                                   bool verbose,
                                   bool use_binary_search,
-                                  bool enforce_all_nodes_match_on_boundaries)
+                                  bool enforce_all_nodes_match_on_boundaries,
+                                  bool skip_find_neighbors)
 {
   stitching_helper(NULL,
                    boundary_id_1,
@@ -832,7 +835,8 @@ void SerialMesh::stitch_surfaces (boundary_id_type boundary_id_1,
                    clear_stitched_boundary_ids,
                    verbose,
                    use_binary_search,
-                   enforce_all_nodes_match_on_boundaries);
+                   enforce_all_nodes_match_on_boundaries,
+                   skip_find_neighbors);
 }
 
 void SerialMesh::stitching_helper (SerialMesh* other_mesh,
@@ -842,7 +846,8 @@ void SerialMesh::stitching_helper (SerialMesh* other_mesh,
                                    bool clear_stitched_boundary_ids,
                                    bool verbose,
                                    bool use_binary_search,
-                                   bool enforce_all_nodes_match_on_boundaries)
+                                   bool enforce_all_nodes_match_on_boundaries,
+                                   bool skip_find_neighbors)
 {
   std::map<dof_id_type, dof_id_type> node_to_node_map, other_to_this_node_map; // The second is the inverse map of the first
   std::map<dof_id_type, std::vector<dof_id_type> > node_to_elems_map;
@@ -1133,7 +1138,7 @@ void SerialMesh::stitching_helper (SerialMesh* other_mesh,
     }
 
     // Copy mesh data
-    this->copy_nodes_and_elements(*other_mesh);
+    this->copy_nodes_and_elements(*other_mesh, skip_find_neighbors);
 
     // Decrement node IDs of mesh to return to original state
     node_it  = other_mesh->nodes_begin();

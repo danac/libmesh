@@ -101,7 +101,7 @@ UnstructuredMesh::UnstructuredMesh (unsigned int d) :
 
 
 void UnstructuredMesh::copy_nodes_and_elements
-  (const UnstructuredMesh& other_mesh)
+  (const UnstructuredMesh& other_mesh, const bool skip_find_neighbors)
 {
   // We're assuming our subclass data needs no copy
   libmesh_assert_equal_to (_n_parts, other_mesh._n_parts);
@@ -198,7 +198,7 @@ void UnstructuredMesh::copy_nodes_and_elements
   //policies as our source mesh.
   this->allow_renumbering(false);
   this->skip_partitioning(true);
-  this->prepare_for_use();
+  this->prepare_for_use(false, skip_find_neighbors);
   this->allow_renumbering(other_mesh.allow_renumbering());
   this->skip_partitioning(other_mesh.skip_partitioning());
 }

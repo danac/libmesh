@@ -201,7 +201,8 @@ class SerialMesh : public UnstructuredMesh
                       bool clear_stitched_boundary_ids=false,
                       bool verbose=true,
                       bool use_binary_search=true,
-                      bool enforce_all_nodes_match_on_boundaries=false);
+                      bool enforce_all_nodes_match_on_boundaries=false,
+                      bool skip_find_neighbors=false);
 
   /**
    * Similar to stitch_meshes, except that we stitch two adjacent surfaces within this mesh.
@@ -212,7 +213,8 @@ class SerialMesh : public UnstructuredMesh
                         bool clear_stitched_boundary_ids=false,
                         bool verbose=true,
                         bool use_binary_search=true,
-                        bool enforce_all_nodes_match_on_boundaries=false);
+                        bool enforce_all_nodes_match_on_boundaries=false,
+                        bool skip_find_neighbors=false);
 
 public:
   /**
@@ -421,7 +423,8 @@ private:
                          bool clear_stitched_boundary_ids,
                          bool verbose,
                          bool use_binary_search,
-                         bool enforce_all_nodes_match_on_boundaries);
+                         bool enforce_all_nodes_match_on_boundaries,
+                         bool skip_find_neighbors);
 
   /**
    * Typedefs for the container implementation.  In this case,
