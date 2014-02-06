@@ -138,7 +138,10 @@ void UnstructuredMesh::copy_nodes_and_elements
   {
     //Preallocate Memory if necessary
     this->reserve_elem(other_mesh.n_elem());
-
+    
+    // Declare a map linking old and new elements, needed to copy the neighbor lists
+    std::map<const Elem*, Elem*> old_elems_to_new_elems;
+    
     // Loop over the elements
     MeshBase::const_element_iterator it = other_mesh.elements_begin();
     const MeshBase::const_element_iterator end = other_mesh.elements_end();
@@ -189,7 +192,28 @@ void UnstructuredMesh::copy_nodes_and_elements
       el->set_id(old->id());
 
       //Hold onto it
-      this->add_elem(el);
+      el = this->add_elem(el);
+      
+      // Add the link between the original element and this copy to the map
+      if(skip_find_neighbors)
+        old_elems_to_new_elems[old] = el;
+    }
+    
+    // Loop (again) over the elements to fill in the neighbors
+    if(skip_find_neighbors)
+    {
+      it = other_mesh.elements_begin();
+      for (; it != end; ++it)
+      {
+        Elem* old_elem = *it;
+        Elem* new_elem = old_elems_to_new_elems[old_elem];
+        for (unsigned int s=0; s != old_elem->n_neighbors(); ++s)
+        {
+          const Elem* old_neighbor = old_elem->neighbor(s);
+          Elem* new_neighbor = old_elems_to_new_elems[old_neighbor];
+          new_elem->set_neighbor(s, new_neighbor);
+        }
+      }
     }
   }
 
