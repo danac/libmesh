@@ -192,7 +192,15 @@ void UnstructuredMesh::copy_nodes_and_elements
       el->set_id(old->id());
 
       //Hold onto it
-      el = this->add_elem(el);
+      if(!skip_find_neighbors)
+      {
+        this->add_elem(el);
+      }
+      else
+      {
+        Elem* new_el = this->add_elem(el);
+        old_elems_to_new_elems[old] = new_el;
+      }
       
       // Add the link between the original element and this copy to the map
       if(skip_find_neighbors)
