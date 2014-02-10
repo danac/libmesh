@@ -836,7 +836,7 @@ void SerialMesh::stitch_surfaces (boundary_id_type boundary_id_1,
                    verbose,
                    use_binary_search,
                    enforce_all_nodes_match_on_boundaries,
-                  false);
+                   true);
 }
 
 void SerialMesh::stitching_helper (SerialMesh* other_mesh,

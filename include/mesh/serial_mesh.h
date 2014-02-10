@@ -424,8 +424,7 @@ private:
                          bool clear_stitched_boundary_ids,
                          bool verbose,
                          bool use_binary_search,
-                         bool enforce_all_nodes_match_on_boundaries,
-                         bool skip_find_neighbors);
+                         bool enforce_all_nodes_match_on_boundaries);
 
   /**
    * Typedefs for the container implementation.  In this case,
