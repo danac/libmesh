@@ -808,6 +808,7 @@ void SerialMesh::stitch_meshes (SerialMesh& other_mesh,
                                 bool enforce_all_nodes_match_on_boundaries,
                                 bool skip_find_neighbors)
 {
+  START_LOG("stitch_meshes()", "SerialMesh");
   stitching_helper(&other_mesh,
                    this_mesh_boundary_id,
                    other_mesh_boundary_id,
@@ -817,6 +818,7 @@ void SerialMesh::stitch_meshes (SerialMesh& other_mesh,
                    use_binary_search,
                    enforce_all_nodes_match_on_boundaries,
                    skip_find_neighbors);
+  STOP_LOG("stitch_meshes()", "SerialMesh");
 }
 
 void SerialMesh::stitch_surfaces (boundary_id_type boundary_id_1,
@@ -1231,10 +1233,11 @@ void SerialMesh::stitching_helper (SerialMesh* other_mesh,
             }
         }
         
-    STOP_LOG(" PART IVc (decrement other_mesh and copy boundary info)", "stitching_helper");
     
     }
 
+    STOP_LOG(" PART IVc (decrement other_mesh and copy boundary info)", "stitching_helper");
+    
   } // end if(other_mesh)
   
   STOP_LOG("PART IV (copy other_mesh to this mesh)", "stitching_helper");
