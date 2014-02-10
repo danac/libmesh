@@ -805,8 +805,7 @@ void SerialMesh::stitch_meshes (SerialMesh& other_mesh,
                                 bool clear_stitched_boundary_ids,
                                 bool verbose,
                                 bool use_binary_search,
-                                bool enforce_all_nodes_match_on_boundaries,
-                                bool skip_find_neighbors)
+                                bool enforce_all_nodes_match_on_boundaries)
 {
   START_LOG("stitch_meshes()", "SerialMesh");
   stitching_helper(&other_mesh,
@@ -817,7 +816,7 @@ void SerialMesh::stitch_meshes (SerialMesh& other_mesh,
                    verbose,
                    use_binary_search,
                    enforce_all_nodes_match_on_boundaries,
-                   skip_find_neighbors);
+                   true);
   STOP_LOG("stitch_meshes()", "SerialMesh");
 }
 
@@ -827,8 +826,7 @@ void SerialMesh::stitch_surfaces (boundary_id_type boundary_id_1,
                                   bool clear_stitched_boundary_ids,
                                   bool verbose,
                                   bool use_binary_search,
-                                  bool enforce_all_nodes_match_on_boundaries,
-                                  bool skip_find_neighbors)
+                                  bool enforce_all_nodes_match_on_boundaries)
 {
   stitching_helper(NULL,
                    boundary_id_1,
@@ -838,7 +836,7 @@ void SerialMesh::stitch_surfaces (boundary_id_type boundary_id_1,
                    verbose,
                    use_binary_search,
                    enforce_all_nodes_match_on_boundaries,
-                   skip_find_neighbors);
+                  false);
 }
 
 void SerialMesh::stitching_helper (SerialMesh* other_mesh,
