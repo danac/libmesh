@@ -904,7 +904,7 @@ void SerialMesh::stitching_helper (SerialMesh* other_mesh,
                           h_min = std::min(h_min, side->hmin());
 
                           // This side is on the boundary, add its information to side_to_elem
-                          if(skip_find_neighbors)
+                          if(skip_find_neighbors && i==0)
                             {
                               key_type key = el->key(side_id);
                               val_type val;
@@ -1254,8 +1254,6 @@ void SerialMesh::stitching_helper (SerialMesh* other_mesh,
       this->delete_node( this->node_ptr(node_id) );
     }
 
-  this->prepare_for_use( /*skip_renumber_nodes_and_elements= */ false, skip_find_neighbors);
-
   // If find_neighbors() wasn't called in prepare_for_use(), we need to
   // manually loop once more over all elements adjacent to the stitched boundary
   // and fix their lists of neighbors.
@@ -1299,6 +1297,8 @@ void SerialMesh::stitching_helper (SerialMesh* other_mesh,
             }
         }
     }
+
+  this->prepare_for_use( /*skip_renumber_nodes_and_elements= */ false, skip_find_neighbors);
 
   // After the stitching, we may want to clear boundary IDs from element
   // faces that are now internal to the mesh
